@@ -17,11 +17,23 @@ Freezes a session's tool declarations and named prompt sections (system prompt) 
 
 DSH `0.2.0-rc.1`–`0.2.1`.
 
+Install the prebuilt package with one command; no local build is required:
+
+```sh
+dsh plugin --profile web add https://github.com/lemonel/dsh-prompt-freeze/releases/download/v1.0.0/lemonel-dsh-prompt-freeze-1.0.0.tgz
+```
+
+Replace `web` with your profile name. After installation, confirm the bundle is enabled, reload the backend and refresh the page.
+
+Alternatively, download the tgz from the [GitHub Release](https://github.com/lemonel/dsh-prompt-freeze/releases/tag/v1.0.0), install it from the Plugins page and select the bundle.
+
+To build a package from source, run in the repository root:
+
 ```sh
 npm ci && npm pack
 ```
 
-Install the tgz from the Plugins page and select the bundle. By hand:
+By hand:
 
 ```yaml
 - id: prompt-freeze

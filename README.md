@@ -17,11 +17,23 @@
 
 DSH `0.2.0-rc.1`–`0.2.1`。
 
+一条命令安装预构建包，无需本地编译：
+
+```sh
+dsh plugin --profile web add https://github.com/lemonel/dsh-prompt-freeze/releases/download/v1.0.0/lemonel-dsh-prompt-freeze-1.0.0.tgz
+```
+
+将 `web` 替换为实际使用的 profile；安装后确认 bundle 已启用，重载后端并刷新页面。
+
+也可以从 [GitHub Release](https://github.com/lemonel/dsh-prompt-freeze/releases/tag/v1.0.0) 下载 tgz，在 Plugins 页安装并勾选 bundle。
+
+从源码打包（在仓库根目录执行）：
+
 ```sh
 npm ci && npm pack
 ```
 
-Plugins 页装 tgz 并勾选 bundle。手动接入：
+手动接入：
 
 ```yaml
 - id: prompt-freeze
