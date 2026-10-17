@@ -7,8 +7,13 @@ name: prompt-freeze tests
 
 on:
   push:
+    branches: ['**']
   pull_request:
   workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
 
 jobs:
   suite:
