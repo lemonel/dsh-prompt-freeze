@@ -1,0 +1,4 @@
+- insert:
+    - id: prompt-freeze
+      name: '@lemonel/dsh-prompt-freeze'
+      config: {}

@@ -1,0 +1,58 @@
+# Prompt Freeze test matrix.
+#
+# The host packages are ordinary devDependencies pinned to one DSH line and the lockfile is committed,
+# so a job is just `npm ci` and the suite — no scratch host install, no copying the plugin next to
+# one, and the same commands a contributor runs. A fresh clone and CI resolve the identical tree.
+name: prompt-freeze tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  suite:
+    name: suite · ${{ matrix.os }} · node ${{ matrix.node }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm ci --no-audit --no-fund
+      - name: Suite against DSH 0.2.0-rc.2
+        run: npm test
+
+  win32-semantics:
+    name: win32 branches by emulation · ubuntu · node 22
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci --no-audit --no-fund
+      # On a real Windows runner the win32 paths run natively; this job covers them from POSIX, where
+      # the emulator reports process.platform as win32 for the plugin's frames and fails fsync on
+      # read-only handles the way FlushFileBuffers does. A green run here is NOT a substitute for the
+      # real Windows legs above — it emulates only rename semantics and read-only fsync.
+      - run: npm test
+        env:
+          NODE_OPTIONS: --import ${{ github.workspace }}/test/tools/prompt-freeze-win32-emulation.mjs
+
+  host-matrix:
+    name: host matrix · ubuntu · node 22
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # 0.1.7-rc.2 and 0.2.1-alpha.4 sit outside the declared peer range on purpose: the point of the
+      # matrix is to observe what a host outside the promise does, not to assert that it works.
+      - run: node test/tools/matrix.mjs

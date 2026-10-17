@@ -1,0 +1,115 @@
+{
+  "name": "@lemonel/dsh-prompt-freeze",
+  "version": "1.0.0",
+  "description": "Session-scoped tool declaration and named prompt-section snapshots that reduce unexpected prompt-cache invalidation, with explicit review before anything is sent.",
+  "type": "module",
+  "license": "MIT",
+  "author": "lemonel",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lemonel/dsh-prompt-freeze.git"
+  },
+  "homepage": "https://github.com/lemonel/dsh-prompt-freeze#readme",
+  "bugs": {
+    "url": "https://github.com/lemonel/dsh-prompt-freeze/issues"
+  },
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "prompt-cache",
+    "cache",
+    "snapshot",
+    "session",
+    "usage"
+  ],
+  "engines": {
+    "node": ">=22",
+    "dsh": "0.2.0-rc.1 || 0.2.0-rc.2 || 0.2.1-alpha.1 || 0.2.1-alpha.2 || 0.2.1-alpha.3 || 0.2.1-alpha.4 || 0.2.1-rc.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./lib/index.mjs",
+  "icon": "./icon.svg",
+  "exports": {
+    ".": "./lib/index.mjs",
+    "./client": "./lib/client.js",
+    "./typert": "./lib/typert.host.mjs",
+    "./remote": "./lib/typert.remote-client.mjs",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": [
+        "./bundles/prompt-freeze.patch.yml"
+      ]
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-api-remotes",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ],
+      "external": []
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "build": "npm run typecheck && node build.mjs",
+    "prepack": "npm run build",
+    "pretest": "npm run build",
+    "test": "node --test test/*.test.mjs",
+    "test:matrix": "node test/tools/matrix.mjs",
+    "test:surface": "node test/tools/prompt-freeze-host-surface.mjs node_modules ."
+  },
+  "files": [
+    "lib",
+    "bundles",
+    "README.md",
+    "README.en.md",
+    "CHANGELOG.md",
+    "docs",
+    "screenshots.json",
+    "locale",
+    "icon.svg",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "@deepseek-ai/cordis": ">=4.0.4 <5 || >=4.0.5-alpha.1 <4.0.6-0",
+    "@deepseek-ai/schemastery": ">=3.18.4 <4 || >=3.18.5-alpha.1 <3.18.6-0",
+    "@deepseek-ai/dsh-agent": ">=0.2.0-rc.1 <0.3.0-0 || >=0.2.1-alpha.1 <0.2.2-0",
+    "@deepseek-ai/dsh-session": ">=0.2.0-rc.1 <0.3.0-0 || >=0.2.1-alpha.1 <0.2.2-0",
+    "@deepseek-ai/dsh-session-query": ">=0.2.0-rc.1 <0.3.0-0 || >=0.2.1-alpha.1 <0.2.2-0",
+    "@deepseek-ai/dsh-system-prompt": ">=0.2.0-rc.1 <0.3.0-0 || >=0.2.1-alpha.1 <0.2.2-0",
+    "@deepseek-ai/dsh-tools": ">=0.2.0-rc.1 <0.3.0-0 || >=0.2.1-alpha.1 <0.2.2-0",
+    "@deepseek-ai/dsh-llm": ">=0.2.0-rc.1 <0.3.0-0 || >=0.2.1-alpha.1 <0.2.2-0",
+    "@deepseek-ai/dsh-typert-protocol": ">=0.2.0-rc.1 <0.3.0-0 || >=0.2.1-alpha.1 <0.2.2-0"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": ">=4.0.4 <5 || >=4.0.5-alpha.1 <4.0.6-0",
+    "@deepseek-ai/schemastery": ">=3.18.4 <4 || >=3.18.5-alpha.1 <3.18.6-0",
+    "@deepseek-ai/dsh": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-agent": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-agent-loop": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-api-gateway": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-fs": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-llm": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-sandbox": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-scope": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-session": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-session-persistence-jsonl": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-session-projection": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-session-query": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-system-prompt": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-tools": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-typert-registry": "0.2.0-rc.2",
+    "typescript": "^5.9.3",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0"
+  }
+}

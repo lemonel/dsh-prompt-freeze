@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Prompt Freeze",
+    "description": "Freezes a session's tool declarations and named system-prompt sections into a snapshot; changes apply only after explicit review."
+  }
+}
