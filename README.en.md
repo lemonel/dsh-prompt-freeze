@@ -1,6 +1,6 @@
 # Prompt Freeze
 
-Freezes a session's tool declarations and named system-prompt sections; changes apply only when you review them. npm package `@lemonel/dsh-prompt-freeze`. No cache-hit guarantee, and it never blocks or restricts tools.
+Freezes a session's tool declarations and named prompt sections (system prompt) to prevent cache invalidation caused by unintended changes; review before deciding whether to apply changes. npm package `@lemonel/dsh-prompt-freeze`. No cache-hit guarantee, and it never blocks or restricts tools.
 
 [中文](./README.md)
 

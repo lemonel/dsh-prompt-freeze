@@ -1,6 +1,6 @@
 # Prompt Freeze / 提示前缀冻结
 
-冻结会话的工具声明和命名提示段落，改不改由你审阅。npm 包 `@lemonel/dsh-prompt-freeze`，不保证缓存命中，也不阻止或限制工具执行。
+冻结会话的工具声明和命名提示段落（system prompt），防止意外改动导致的缓存失效，审阅后决定是否修改。npm 包 `@lemonel/dsh-prompt-freeze`，不保证缓存命中，也不阻止或限制工具执行。
 
 [English](./README.en.md)
 
