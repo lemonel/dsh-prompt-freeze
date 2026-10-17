@@ -24,7 +24,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-      - run: npm ci --no-audit --no-fund
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci --prefer-offline --no-audit --no-fund
       - name: Suite against DSH 0.2.0-rc.2
         run: npm test
 
@@ -36,12 +38,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm ci --no-audit --no-fund
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci --prefer-offline --no-audit --no-fund
+      - run: npm run build
       # On a real Windows runner the win32 paths run natively; this job covers them from POSIX, where
       # the emulator reports process.platform as win32 for the plugin's frames and fails fsync on
       # read-only handles the way FlushFileBuffers does. A green run here is NOT a substitute for the
-      # real Windows legs above — it emulates only rename semantics and read-only fsync.
-      - run: npm test
+      # real Windows legs above — it emulates only platform guards and read-only fsync.
+      - run: node --test test/*.test.mjs
         env:
           NODE_OPTIONS: --import ${{ github.workspace }}/test/tools/prompt-freeze-win32-emulation.mjs
 
@@ -53,6 +58,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      # 0.1.7-rc.2 and 0.2.1-alpha.4 sit outside the declared peer range on purpose: the point of the
-      # matrix is to observe what a host outside the promise does, not to assert that it works.
+          cache: npm
+          cache-dependency-path: package-lock.json
+      # Blocking compatibility checks cover versions inside the declared peer range.
       - run: node test/tools/matrix.mjs

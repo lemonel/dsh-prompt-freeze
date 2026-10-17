@@ -12,13 +12,15 @@ import { pathToFileURL } from 'node:url'
 
 const SHIM = 'prompt-freeze-win32-shim:fs/promises'
 let prefix = ''
+let dependencies = ''
 
 export function initialize(data) {
   prefix = pathToFileURL(data.plugin.endsWith('/') ? data.plugin : `${data.plugin}/`).href
+  dependencies = `${prefix}node_modules/`
 }
 
 export async function resolve(specifier, context, nextResolve) {
-  if (specifier === 'node:fs/promises' && context.parentURL?.startsWith(prefix)) return { url: SHIM, shortCircuit: true }
+  if (specifier === 'node:fs/promises' && context.parentURL?.startsWith(prefix) && !context.parentURL.startsWith(dependencies)) return { url: SHIM, shortCircuit: true }
   return nextResolve(specifier, context)
 }
 

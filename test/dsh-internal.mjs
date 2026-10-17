@@ -1,19 +1,10 @@
 import { existsSync } from 'node:fs'
 import { dirname, join } from 'node:path'
-import { pathToFileURL } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
-// These tests drive packages installed inside the DSH tree, whose absolute path differs
-// per platform and per Node installation manager (system packages, nvm, Homebrew, a
-// Windows npm prefix). Derive candidates from the running Node binary instead of
-// assuming /usr/lib/node_modules; DSH_PACKAGE_ROOT overrides an unusual layout — and when it is set it
-// is authoritative, because falling back to another installation silently mixed two DSH versions into
-// one run (a matrix run against 0.2.1-alpha.4 resolved the system rc.2 persistence package instead).
-const fallbackRoots = [
-  join(dirname(process.execPath), '..', 'lib', 'node_modules'),
-  join(dirname(process.execPath), '..', 'node_modules'),
-  '/usr/lib/node_modules',
-]
-const roots = process.env.DSH_PACKAGE_ROOT ? [process.env.DSH_PACKAGE_ROOT] : fallbackRoots
+// Use the tested project's dependencies, never an unrelated global DSH install.
+// An explicit override remains authoritative for isolated host-layout tests.
+const roots = [process.env.DSH_PACKAGE_ROOT ?? join(dirname(fileURLToPath(import.meta.url)), '..', 'node_modules')]
 
 // Two layouts are in the wild: a global install nests the host's own dependencies under the host
 // package (`root/@deepseek-ai/dsh/node_modules/@deepseek-ai/dsh-llm`), while a flat `npm install`

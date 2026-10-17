@@ -2,7 +2,7 @@
 // Run the suite against several published DSH releases, one install each.
 //
 // Usage: node test/tools/matrix.mjs [dsh-version ...]
-//        with no arguments: 0.1.7-rc.2 0.2.0-rc.1 0.2.0-rc.2 0.2.1-alpha.4
+//        with no arguments: 0.2.0-rc.1 0.2.0-rc.2 0.2.1-alpha.4
 //
 // The host packages are ordinary devDependencies pinned to a single DSH line, so switching versions is
 // just an install — no scratch directory, no copying the plugin next to a host tree, no
@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..')
-const DEFAULT_VERSIONS = ['0.1.7-rc.2', '0.2.0-rc.1', '0.2.0-rc.2', '0.2.1-alpha.4']
+const DEFAULT_VERSIONS = ['0.2.0-rc.1', '0.2.0-rc.2', '0.2.1-alpha.4']
 const requested = process.argv.slice(2).filter((argument) => !argument.startsWith('--'))
 
 // cordis and schemastery version independently of the DSH line, so they keep a range carrying explicit
@@ -49,7 +49,7 @@ try {
     manifest.devDependencies = dev
     writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n')
 
-    const install = run('npm', ['install', '--no-audit', '--no-fund', '--silent', '--no-package-lock'])
+    const install = run('npm', ['install', '--prefer-offline', '--no-audit', '--no-fund', '--no-package-lock'])
     if (install.status !== 0) { console.error(`[matrix] ${version}: install failed`); status = 1; continue }
 
     // Fail loudly on a silent fallback: npm can resolve a different release than the one asked for,

@@ -16,7 +16,7 @@ import { Config } from '../lib/index.mjs'
 import { PromptFreeze } from '../lib/host.mjs'
 import { prepareRegistration } from '../lib/registration.mjs'
 import { Store, diff, revision, LIVE_SECTION_NAMES } from '../lib/core.mjs'
-import { dshInternal } from './dsh-internal.mjs'
+import { dshPlugin } from './dsh-internal.mjs'
 
 test('unavailable estimates retain last display value but never auto-apply', () => {
   const host = Object.create(PromptFreeze.prototype)

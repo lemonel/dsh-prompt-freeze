@@ -37,11 +37,12 @@
 //   PROMPT_FREEZE_ROOT=/path/to/plugin   (defaults to the repository root next to this file)
 import { register } from 'node:module'
 import { stat } from 'node:fs/promises'
-import { fileURLToPath } from 'node:url'
-import { basename, dirname, join } from 'node:path'
+import { fileURLToPath, pathToFileURL } from 'node:url'
+import { basename, dirname, join, resolve } from 'node:path'
 import { tmpdir, homedir } from 'node:os'
 
-const plugin = process.env.PROMPT_FREEZE_ROOT ?? join(dirname(fileURLToPath(import.meta.url)), '..', '..')
+const plugin = resolve(process.env.PROMPT_FREEZE_ROOT ?? join(dirname(fileURLToPath(import.meta.url)), '..', '..'))
+const prefixes = [plugin.replaceAll('\\', '/') + '/', pathToFileURL(plugin).href.replace(/\/$/, '') + '/']
 const realPlatform = process.platform
 
 // A silently inactive emulator would report a green run, so the prerequisite fails loudly.
@@ -72,5 +73,8 @@ const caller = () => {
 
 Object.defineProperty(process, 'platform', {
   configurable: true,
-  get: () => (caller().includes(plugin) ? 'win32' : realPlatform),
+  get: () => {
+    const frame = caller().replaceAll('\\', '/')
+    return prefixes.some(prefix => frame.includes(prefix) && !frame.includes(`${prefix}node_modules/`)) ? 'win32' : realPlatform
+  },
 })
