@@ -8,7 +8,7 @@ const lock = JSON.parse(await readFile(new URL('../package-lock.json', import.me
 const tag = `v${manifest.version}`
 const entries = [
   'package.json', 'README.md', 'README.en.md', 'LICENSE', 'screenshots.json',
-  'locale/en.json', 'locale/zh.json', 'docs/panel-en.png', 'docs/panel-zh.png',
+  'locale/en.json', 'locale/zh.json', 'docs/trigger.png', 'docs/panel-en.png', 'docs/panel-zh.png',
   manifest.main, manifest.icon, ...Object.values(manifest.exports).filter(value => !value.includes('*')),
   ...manifest.dsh.bundle.patch, 'lib/host.mjs', 'lib/panel.cjs',
 ].map(path => `package/${path.replace(/^\.\//, '')}`)

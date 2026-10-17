@@ -46,9 +46,11 @@ By hand:
 
 ## Usage
 
-![Session panel](docs/panel-en.png)
+The entry sits left of the composer; click *Prompt Freeze*:
 
-Open the panel from the Prompt Freeze trigger left of the composer:
+![Prompt Freeze trigger left of the composer](docs/trigger.png)
+
+![Session panel](docs/panel-en.png)
 
 1. Eye button opens the diff.
 2. On a diff: *Review latest version* → *Apply this version*.

@@ -46,9 +46,11 @@ npm ci && npm pack
 
 ## 使用
 
-![会话面板](docs/panel-zh.png)
+入口在输入栏左侧，点击「Prompt Freeze」：
 
-输入栏左侧「Prompt Freeze」打开面板：
+![输入栏左侧的入口](docs/trigger.png)
+
+![会话面板](docs/panel-zh.png)
 
 1. 眼睛按钮看差异。
 2. 有差异：重新审阅最新版本 → 应用此版本。

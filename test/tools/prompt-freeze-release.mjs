@@ -24,7 +24,7 @@ export function validateContents(entries, packed, manifest) {
   assert.deepEqual(packed.exports, manifest.exports, 'Packed entry points differ')
   assert.deepEqual(packed.dsh, manifest.dsh, 'Packed DSH manifest differs')
   const paths = new Set(entries.map(entry => entry.replace(/^package\//, '')))
-  const required = ['package.json', 'README.md', 'README.en.md', 'LICENSE', 'screenshots.json', 'locale/en.json', 'locale/zh.json', 'docs/panel-en.png', 'docs/panel-zh.png', packed.main, packed.icon, ...Object.values(packed.exports).filter(value => !value.includes('*')), ...packed.dsh.bundle.patch]
+  const required = ['package.json', 'README.md', 'README.en.md', 'LICENSE', 'screenshots.json', 'locale/en.json', 'locale/zh.json', 'docs/trigger.png', 'docs/panel-en.png', 'docs/panel-zh.png', packed.main, packed.icon, ...Object.values(packed.exports).filter(value => !value.includes('*')), ...packed.dsh.bundle.patch]
   for (const path of required) assert(paths.has(path.replace(/^\.\//, '')), `Missing release file: ${path}`)
   for (const entry of entries) {
     assert(entry.startsWith('package/') && !entry.split('/').includes('..'), `Unsafe archive path: ${entry}`)
